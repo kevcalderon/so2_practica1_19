@@ -1,0 +1,40 @@
+--LEVANTAR BASEMYSQL DOCKER
+
+
+--COMPILAR MODULOS KERNEL
+make all
+
+--VER MENSAJES
+sudo dmesg
+
+--INSERTAR MODULOS
+sudo insmod moduloRam.ko
+sudo insmod moduloCPU.ko
+
+--REMOVER MODULOS
+sudo rmmod moduloRam.ko
+sudo rmmod moduloRam.ko
+
+db-practica2
+developer
+
+--COMANDOS PARA INSTALAR TODO EN VM
+sudo apt update
+sudo apt install git
+sudo apt install build-essential
+sudo apt-get install manpages-dev
+
+
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io
+sudo docker run hello-world
+
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+

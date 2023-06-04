@@ -1,0 +1,1 @@
+cmd_/home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/cpu/modules.order := {   echo /home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/cpu/moduloCPU.ko; :; } | awk '!x[$$0]++' - > /home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/cpu/modules.order

@@ -1,0 +1,1 @@
+cmd_/home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/ram/moduloRam.mod := printf '%s\n'   moduloRam.o | awk '!x[$$0]++ { print("/home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/ram/"$$0) }' > /home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/ram/moduloRam.mod

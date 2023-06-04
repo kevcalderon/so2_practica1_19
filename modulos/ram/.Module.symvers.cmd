@@ -1,0 +1,1 @@
+cmd_/home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/ram/Module.symvers := sed 's/ko$$/o/' /home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/ram/modules.order | scripts/mod/modpost -m -a  -o /home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/ram/Module.symvers -e -i Module.symvers   -T -

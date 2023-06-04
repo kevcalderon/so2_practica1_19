@@ -1,0 +1,1 @@
+cmd_/home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/cpu/moduloCPU.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/cpu/moduloCPU.ko /home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/cpu/moduloCPU.o /home/kevinc/Escritorio/USAC/SOPES1/Practica2/modulos/cpu/moduloCPU.mod.o;  true
