@@ -18,7 +18,7 @@ type RAM struct {
 var conn = MySQLConn()
 
 func MySQLConn() *sql.DB {
-	connString := "root:S^UkfC~}f8IZF{&$@tcp(34.125.46.137:3306)/practica2"
+	connString := "root:S^UkfC~}f8IZF{&$@tcp(34.125.133.162:3306)/practica2"
 	conn, err := sql.Open("mysql", connString)
 	if err != nil {
 		fmt.Println(err)
