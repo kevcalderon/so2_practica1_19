@@ -45,7 +45,7 @@ static struct proc_ops operaciones =
 //Funcion a ejecuta al insertar el modulo en el kernel con insmod
 static int _insert(void)
 {
-    proc_create("ram_201902714", 0, NULL, &operaciones);
+    proc_create("ram_grupo19", 0, NULL, &operaciones);
     printk(KERN_INFO "Hola mundo, somos el grupo 19 y este es el monitor de memoria\n");
     return 0;
 }
@@ -53,7 +53,7 @@ static int _insert(void)
 //Funcion a ejecuta al remover el modulo del kernel con rmmod
 static void _remove(void)
 {
-    remove_proc_entry("ram_201902714", NULL);
+    remove_proc_entry("ram_grupo19", NULL);
     printk(KERN_INFO "Sayonara mundo, somos el grupo 19 y este es el monitor de memoria\n");
 }
 
