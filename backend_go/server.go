@@ -32,7 +32,7 @@ func main() {
 
 	i := 0
 	for i < 10 {
-		cmd := exec.Command("sh", "-c", "cat /proc/ram_201902714")
+		cmd := exec.Command("sh", "-c", "cat /proc/ram_grupo19")
 		out, err := cmd.CombinedOutput()
 		if err != nil {
 			fmt.Println(err)
@@ -42,7 +42,7 @@ func main() {
 		json.Unmarshal([]byte(outputRam), &ram)
 		fmt.Println(outputRam)
 
-		cmd2 := exec.Command("sh", "-c", "cat /proc/cpu_201902714")
+		cmd2 := exec.Command("sh", "-c", "cat /proc/cpu_grupo19")
 		out2, err2 := cmd2.CombinedOutput()
 		if err2 != nil {
 			fmt.Println(err2)
