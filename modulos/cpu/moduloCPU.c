@@ -88,13 +88,13 @@ static struct proc_ops operaciones ={
 
 static int insertMod(void){
     proc_create("cpu_201902714", 0, NULL, &operaciones);
-    printk(KERN_INFO "Kevin Josue Calderon Peraza\n");
+    printk(KERN_INFO "Hola mundo, somos el grupo 19 y este es el monitor de CPU\n");
     return 0;
 }
 
 static void removeMod(void){
     remove_proc_entry("cpu_201902714", NULL);
-    printk(KERN_INFO "Primer Semestre 2023\n");
+    printk(KERN_INFO "Sayonara mundo, somos el grupo 19 y este fue monitor de CPU\n");
 }
 
 module_init(insertMod);
