@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
-import { Pie } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import "chart.js/auto";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -15,6 +15,7 @@ function App() {
   const [dataRam, setDataRam] = useState();
   const [dataCpu, setDataCpu] = useState();
   const [loading, setLoading] = useState(false);
+  const [mem, setMem] = useState([]);
 
   const getData = async () => {
     await fetch(`${API_URL}/getData`)
@@ -23,41 +24,26 @@ function App() {
         let temp1 = JSON.parse(data.ram);
         let temp2 = JSON.parse(data.cpu);
         setDataRam(temp1);
+
         setDataCpu(temp2.data);
         console.log(temp1);
         console.log(temp2);
+        setMem((prevMem) => [
+          ...prevMem,
+          {
+            label: "x",
+            frequency: parseInt(temp1.totalram) / 1024 / 1024,
+          },
+        ]);
 
         setLoading(true);
       })
       .catch((err) => console.log(err));
   };
 
-  const options = {
-    title: {
-      display: true,
-      text: "Porcentaje de uso de la memoria RAM",
-    },
-  };
+  const deleteProcess = async () => {};
 
-  const data = {
-    labels: ["%libre", "%ocupado"],
-    datasets: [
-      {
-        label: "My First Dataset",
-        data: [
-          (parseInt(dataRam?.freeram) * 100) / parseInt(dataRam?.totalram),
-          100 -
-            (parseInt(dataRam?.freeram) * 100) / parseInt(dataRam?.totalram),
-        ],
-        backgroundColor: [
-          "rgb(255, 99, 132)",
-          "rgb(54, 162, 235)",
-          "rgb(255, 205, 86)",
-        ],
-        hoverOffset: 4,
-      },
-    ],
-  };
+  const data = mem;
 
   const popOver = (Childrens) => {
     return (
@@ -76,6 +62,31 @@ function App() {
     );
   };
 
+  const FrecuenciaChart = ({ data }) => {
+    const chartData = {
+      labels: data.map((item) => item.label),
+      datasets: [
+        {
+          label: "Frecuencia",
+          data: data.map((item) => item.frequency),
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    const chartOptions = {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    };
+
+    return <Line data={chartData} options={chartOptions} />;
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       getData();
@@ -91,16 +102,17 @@ function App() {
       ) : (
         <Row>
           {/* GRAFICA RAM */}
-          <Col md="auto">
-            <div style={{ height: "350px", width: "350px" }}>
-              <h3>Porcentaje de Ram</h3>
-              <Pie data={data} options={options} />
-            </div>
-            <br></br>
-            <br></br>
-          </Col>
+          {/* <Col md="auto">
+           
+            
+          </Col> */}
           {/* TABLA DE PROCESOS */}
           <Col>
+            {" "}
+            <div style={{ height: "600px", width: "900px" }}>
+              <h3>Poligono de frecuencia</h3>
+              <FrecuenciaChart data={data} />
+            </div>
             <Table striped bordered hover>
               <thead>
                 <tr>
