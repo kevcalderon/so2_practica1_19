@@ -46,7 +46,7 @@ static struct proc_ops operaciones =
 static int _insert(void)
 {
     proc_create("ram_201902714", 0, NULL, &operaciones);
-    printk(KERN_INFO "201902714\n");
+    printk(KERN_INFO "Hola mundo, somos el grupo 19 y este es el monitor de memoria\n");
     return 0;
 }
 
@@ -54,7 +54,7 @@ static int _insert(void)
 static void _remove(void)
 {
     remove_proc_entry("ram_201902714", NULL);
-    printk(KERN_INFO "Sistemas Operativos 1\n");
+    printk(KERN_INFO "Sayonara mundo, somos el grupo 19 y este es el monitor de memoria\n");
 }
 
 module_init(_insert);
