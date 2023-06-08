@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Pie } from "react-chartjs-2";
 import "chart.js/auto";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -15,6 +15,11 @@ function App() {
   const [dataRam, setDataRam] = useState();
   const [dataCpu, setDataCpu] = useState();
   const [loading, setLoading] = useState(false);
+  const [countSleeping, setCountSleeping] = useState(0);
+  const [countRunning, setCountRunning] = useState(0);
+  const [countZombie, setCountZombie] = useState(0);
+  const [countStopped, setCountStopped] = useState(0);
+
   const [mem, setMem] = useState([]);
 
   const getData = async () => {
@@ -26,13 +31,29 @@ function App() {
         setDataRam(temp1);
 
         setDataCpu(temp2.data);
-        console.log(temp1);
-        console.log(temp2);
+
+        temp2.data.forEach((element) => {
+          if (element.state === 1) {
+            setCountSleeping((prevCount) => prevCount + 1);
+          } else if (element.state === 1026) {
+            setCountSleeping((prevCount) => prevCount + 1);
+          } else if (element.state === 0) {
+            setCountRunning((prevCount) => prevCount + 1);
+          } else if (element.state === 4) {
+            setCountZombie((prevCount) => prevCount + 1);
+          } else if (element.state === 8) {
+            setCountStopped((prevCount) => prevCount + 1);
+          }
+        });
+
         setMem((prevMem) => [
           ...prevMem,
           {
             label: "x",
-            frequency: parseInt(temp1.totalram) / 1024 / 1024,
+            frequency:
+              (parseInt(temp1.totalram) - parseInt(temp1.freeram)) /
+              1024 /
+              1024,
           },
         ]);
 
@@ -41,7 +62,32 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const deleteProcess = async () => {};
+  const optionsPie = {
+    title: {
+      display: true,
+      text: "Porcentaje de uso de la memoria RAM",
+    },
+  };
+
+  const data2 = {
+    labels: ["%libre", "%ocupado"],
+    datasets: [
+      {
+        label: "My First Dataset",
+        data: [
+          (parseInt(dataRam?.freeram) * 100) / parseInt(dataRam?.totalram),
+          100 -
+            (parseInt(dataRam?.freeram) * 100) / parseInt(dataRam?.totalram),
+        ],
+        backgroundColor: [
+          "rgb(255, 99, 132)",
+          "rgb(54, 162, 235)",
+          "rgb(255, 205, 86)",
+        ],
+        hoverOffset: 4,
+      },
+    ],
+  };
 
   const data = mem;
 
@@ -87,6 +133,10 @@ function App() {
     return <Line data={chartData} options={chartOptions} />;
   };
 
+  const killProcess = async (pid) => {
+    console.log("AGREGUE");
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       getData();
@@ -101,17 +151,32 @@ function App() {
         <h1>loading...</h1>
       ) : (
         <Row>
-          {/* GRAFICA RAM */}
-          {/* <Col md="auto">
-           
-            
-          </Col> */}
-          {/* TABLA DE PROCESOS */}
           <Col>
             {" "}
             <div style={{ height: "600px", width: "900px" }}>
               <h3>Poligono de frecuencia</h3>
               <FrecuenciaChart data={data} />
+            </div>
+            <div style={{ height: "350px", width: "350px" }}>
+              <h3>Porcentaje de Ram</h3>
+              <Pie data={data2} options={optionsPie} />
+            </div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <div>
+              <h5>
+                Sleeping: <p>{countSleeping}</p>
+              </h5>
+              <h5>
+                Running: <p>{countRunning}</p>
+              </h5>
+              <h5>
+                Stopped: <p>{countStopped}</p>
+              </h5>
+              <h5>
+                Zombie: <p>{countZombie}</p>
+              </h5>
             </div>
             <Table striped bordered hover>
               <thead>
@@ -151,6 +216,13 @@ function App() {
                         >
                           <Button variant="outline-dark">Ver</Button>
                         </OverlayTrigger>
+                        <Button
+                          variant="outline-danger"
+                          style={{ margin: "1%" }}
+                          onClick={() => killProcess(process.pid)}
+                        >
+                          Kill
+                        </Button>
                       </td>
                     </tr>
                   );
